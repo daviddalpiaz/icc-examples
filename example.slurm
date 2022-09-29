@@ -1,43 +1,43 @@
 #!/bin/bash
 
-## Describe requirements for computing ----
+## Setup SLURM submission options ----------------------------------------------
 
+## Setup job to run on the stat queue
 #SBATCH --partition=stat
 
-## Name the job to ID it in squeue -u $USER
+## Give job a name to easily identify using: squeue -u $USER
 #SBATCH --job-name=example
 
 ## Send email on any change in job status (NONE, BEGIN, END, FAIL, ALL)
-## Note: To be notified on each task on the array use: ALL,ARRAY_TASKS
 #SBATCH --mail-type=ALL
 
-## Email address of where the notification should be sent.
+## Define email address where notifications will be sent
 #SBATCH --mail-user=dalpiaz2@illinois.edu
 
-## Amount of time the job should run
-## Note: specified in hour:min:sec, e.g. 01:30:00 is a 1 hour and 30 min job.
+## Define time (as hour:min:sec) allotted for job to run
 #SBATCH --time=00:10:00
-## Request a single node
+
+## Specify use of a single compute node
 #SBATCH --ntasks=1
-## Specify number of CPU cores for parallel jobs
-## Note: Leave at 1 if not running in parallel.
+
+## Specify number of CPUs (cores) for parallel jobs
 #SBATCH --cpus-per-task=8
+
 ## Request a maximum amount of RAM per CPU core
-## Note: For memory intensive work, set to a higher amount of ram.
 #SBATCH --mem-per-cpu=2150M
 
-## Setup computing environment for job ----
+## Setup output directory ------------------------------------------------------
 
-## Create a directory for the data output based SLURM_JOBID assigned to job
+## Create a directory for the data output based on SLURM_JOBID assigned to job
 mkdir ${SLURM_SUBMIT_DIR}/${SLURM_JOBID}
 
-## Switch directory into job ID (puts all output here)
+## Switch directory into job ID
 cd ${SLURM_SUBMIT_DIR}/${SLURM_JOBID}
 
-## Run simulation ----
+## Run computations ------------------------------------------------------------
 
-## Load R
+## Load required modules
 module load R
 
-## Run R script in batch mode without file output
+## Run script
 Rscript $HOME/example.R
