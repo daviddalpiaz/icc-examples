@@ -2,6 +2,8 @@
 
 ## Describe requirements for computing ----
 
+#SBATCH --partition=stat
+
 ## Name the job to ID it in squeue -u $USER
 #SBATCH --job-name=example
 
